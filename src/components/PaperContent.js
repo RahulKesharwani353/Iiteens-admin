@@ -11,7 +11,7 @@ import "./css/tp.css";
 import { InlineTex } from "react-tex";
 import Latex from "react-latex-next";
 import { Button } from "bootstrap";
-
+  
 const PaperContent = () => {
   var [questionDetail, setQuestionDetail] = useState("");
   var [typing, setTyping] = useState("");

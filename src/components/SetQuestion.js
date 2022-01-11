@@ -42,7 +42,7 @@ const SetQuestion = (props) => {
   // const Chapter = props.match.params.chapter
   // alert(props.match.params.Id)
 
-  console.log(props.location.state);
+  // console.log(props.location.state);
   const Class = props.location.state.Class;
   const Id = props.location.state.id;
   const QuestionNo = props.location.state.QuestionNo;
@@ -54,8 +54,8 @@ const SetQuestion = (props) => {
 
   const submitPaper = (e) => {
     db.collection("PYSV")
-      .doc("physics")
-      .collection(Class)
+      .doc(Class)
+      .collection(Subject)
       .doc(Chapter)
       .collection("question")
       .add({
@@ -69,7 +69,7 @@ const SetQuestion = (props) => {
         hint: hint,
         solution: solution,
         year: year,
-        questionNumber: `${props.QuestionNumber + 1}`,
+        questionNumber: `${QuestionNo}`,
       })
       .then(() => {
         alert("Your message has been submitted👍");
@@ -80,8 +80,8 @@ const SetQuestion = (props) => {
   };
   const updatePaper = (e) => {
     db.collection("PYSV")
-      .doc(Subject)
-      .collection(Class)
+      .doc(Class)
+      .collection(Subject)
       .doc(Chapter)
       .collection("question")
       .doc(Id)
@@ -95,7 +95,7 @@ const SetQuestion = (props) => {
         correct: correct,
         solution: solution,
         hint: hint,
-        questionNumber: `${QuestionNo + 1}`,
+        questionNumber: `${QuestionNo}`,
       })
       .then(() => {
         alert("Updated paper");
@@ -204,8 +204,8 @@ const SetQuestion = (props) => {
   async function fetchPaper() {
     if (Id) {
       db.collection("PYSV")
-        .doc("physics")
-        .collection(Class)
+        .doc(Class)
+        .collection(Subject)
         .doc(Chapter)
         .collection("question")
         .doc(Id)
@@ -261,8 +261,10 @@ const SetQuestion = (props) => {
                 {props.filed !== "" ? (
                   props.filed.map((e, index) => {
                     var { data } = e;
+                    var keyBla= data+index;
                     return (
-                      <Draggable key={data} draggableId={data} index={index}>
+                  
+                      <Draggable key={keyBla} draggableId={keyBla} index={index}>
                         {(provided) => (
                           <li
                             ref={provided.innerRef}
@@ -273,7 +275,7 @@ const SetQuestion = (props) => {
                               {data}
                               <button
                                 onClick={() =>
-                                  deleteElement(index, props.filed)
+                                deleteElement(index, props.filed)
                                 }
                               >
                                 Delete
@@ -298,7 +300,7 @@ const SetQuestion = (props) => {
 
   return (
     <div>
-      <h1> Question Paper </h1>
+      <h1 style={{textAlign:'center'}}> Question Paper - {QuestionNo} </h1>
       <br />
       <Typer
         info={questionDetail}
@@ -467,6 +469,7 @@ const SetQuestion = (props) => {
             <h4>Year Of Paper</h4>
             <TextField
               label="Year"
+              value={year}
               onChange={(e) => setYear(e.target.value)}
             ></TextField>
           </Col>
@@ -474,13 +477,13 @@ const SetQuestion = (props) => {
       </Container>
       {Id ? (
         <Container>
-          <Button className="shadow-btn" onClick={updatePaper}>
+          <Button className="shadow-btn" onClick={updatePaper}style={{margin:'30px', width:'100%', background:'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)'}}>
             Update Paper
           </Button>
         </Container>
       ) : (
         <Container>
-          <Button className="shadow-btn" onClick={submitPaper}>
+          <Button className="shadow-btn" onClick={submitPaper} style={{margin:'30px', width:'100%', background:'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)'}}>
             Create New Paper
           </Button>
         </Container>

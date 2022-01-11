@@ -60,11 +60,14 @@ const Typer = (props) => {
                         <text>{data} </text>
                       ) : type === "2" ? (
                         <Latex>{LaTeX}</Latex>
-                      ) : (
+                      ) :  type === "3" ?(
                         <div>
                           <img src={data} alt ="img"/>
                         </div>
-                      )}
+                      ): (<div>
+                        {data}
+                      </div>)
+                    }
                     </div>
                   );
                 })
@@ -90,6 +93,9 @@ const Typer = (props) => {
                   <input type="radio" value="3" name={props.title} />
                   image
                   <br />
+                  <input type="radio" value="0" name={props.title} />
+                  new line
+                  <br />
                 </div>
               </Col>
               <Col>
@@ -109,7 +115,7 @@ const Typer = (props) => {
                      ></textarea>
                      <button type="submit">Add</button>
                    </form>
-                  </div>):
+                  </div>):type === "3"?
                   (
                     <div>
                     <Form.Group controlId="formFileLg" className="mb-3" >
@@ -130,7 +136,25 @@ const Typer = (props) => {
         }>Add Image</Button>
        </Form.Group>
                     </div>
-                  )
+                  ):
+                  (<div>Line Break
+                     <form
+                     className="form"
+                     onSubmit={(elm) => {
+                       elm.preventDefault();
+                       questionDetailSubmit();
+                     }}
+                   >
+                     <button type="submit"
+                     onClick={
+                        (elm)=> {
+                          setText("\n")
+                        }
+
+                     }>Add</button>
+                   </form>
+                  </div>
+                    )
 
               }
             

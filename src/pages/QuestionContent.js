@@ -42,8 +42,8 @@ useEffect(()=>{
 
   function fetchPaper(selClass, selChapter) {
     db.collection("PYSV")
-      .doc(sub)
-      .collection(selClass)
+      .doc(selClass)
+      .collection(sub)
       .doc(selChapter)
       .collection("question")
       .orderBy("questionNumber")
@@ -58,9 +58,29 @@ useEffect(()=>{
     console.log(allQuestions);
   }
 
-  // useEffect(
-  //   ()=>
-  // )
+  function deleteQuestion(id){
+   //sure want to delete yes or no
+    //if yes then delete
+    //if no then do nothing
+    if(window.confirm("Are you sure want to delete this question?")){
+      db.collection("PYSV")
+      .doc(Class)
+      .collection(sub)
+      .doc(chapter)
+      .collection("question")
+      .doc(id)
+      .delete()
+      .then(function() {
+        console.log("Document successfully deleted!");
+      }.catch(function(error) {
+        console.error("Error removing document: ", error);
+      }));
+  
+  }
+  else{
+    console.log("not deleted");
+  }
+  }
 
   return (
    
@@ -185,10 +205,13 @@ useEffect(()=>{
                               <text>{data} </text>
                             ) : type === "2" ? (
                               <Latex>{LaTeX}</Latex>
-                            ) : (
+                            ) : type === "3" ?(
                               <div>
                           <img src={data} alt ="img"/>
                         </div>
+                            ):(
+                              <div><br/></div>
+                              
                             )}
                           </div>
                         );
@@ -214,9 +237,20 @@ useEffect(()=>{
                       Chapter: chapter,
                       QuestionNo: index+1
                     }
-                  }}>Edit</Link>
+                  }}>Edit Question</Link>
                     {/* <a href={`/edit/${Class}/${chapter}/${subject}/${questionNo}/${Id}`}>Edit</a> */}
                   </Button>
+
+                  <div>
+                  <Button
+                   className="shadow-btn"
+                   style={{marginTop:"19px", backgroundColor:"red", color:"white"}}
+                  onClick={() => {
+                    deleteQuestion(id)}}
+                  >
+                    Delete Question
+                  </Button>
+                  </div>
                   
                 </div>
               );
